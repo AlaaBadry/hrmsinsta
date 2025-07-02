@@ -108,7 +108,7 @@
   
   const projects = createListResource({
 	doctype: "Project",
-	fields: ["name", "project_name", "custom_loc"],
+	fields: ["name", "project_name", "custom_location"],
 	orderBy: "project_name asc",
 	auto: true,
   })
@@ -120,7 +120,7 @@
   
   const checkins = createListResource({
 	doctype: DOCTYPE,
-	fields: ["name", "employee", "employee_name", "log_type", "time", "device_id", "custom_projectn"], 
+	fields: ["name", "employee", "employee_name", "log_type", "time", "device_id", "custom_project"], 
 	filters: {
 	  employee: employee.data.name,
 	},
@@ -229,7 +229,7 @@
 		  time: checkinTimestamp.value,
 		  latitude: latitude.value,
 		  longitude: longitude.value,
-		  custom_projectn: null, // لا يوجد مشروع
+		  custom_project: null,
 		},
 		{
 		  onSuccess() {
@@ -282,7 +282,7 @@
 	}
   
 	try {
-	  const geojson = JSON.parse(selectedProject.value.custom_loc)
+	  const geojson = JSON.parse(selectedProject.value.custom_location)
 	  if (!geojson.features || !geojson.features[0]?.geometry?.coordinates) {
 		toast({
 		  title: "Error",
@@ -320,7 +320,7 @@
 		  time: checkinTimestamp.value,
 		  latitude: latitude.value,
 		  longitude: longitude.value,
-		  custom_projectn: selectedProject.value.name,
+		  custom_project: selectedProject.value.name,
 		},
 		{
 		  onSuccess() {
