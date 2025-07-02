@@ -51,7 +51,7 @@
 			class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
 		  >
 			<option value="">Select a project</option>
-			<option value="non-project">Non-Project (General Check-in)</option>
+			<option value="non-project">Non-Project</option>
 			<option v-for="project in projects.data" :key="project.name" :value="project">
 			  {{ project.project_name }}
 			</option>
@@ -220,7 +220,6 @@
   const submitLog = (logType) => {
 	const action = logType === "IN" ? "Check-in" : "Check-out"
   
-	// حالة Non-Project (لا توجد شروط)
 	if (selectedProject.value === "non-project") {
 	  checkins.insert.submit(
 		{
@@ -258,7 +257,6 @@
 	  return
 	}
   
-	// حالة وجود مشروع (تطبق الشروط الأصلية)
 	if (!selectedProject.value) {
 	  toast({
 		title: "Error",
@@ -267,7 +265,7 @@
 		position: "bottom-center",
 		iconClasses: "text-red-500",
 	  })
-	  return
+	  returncustom
 	}
   
 	if (!latitude.value || !longitude.value) {
