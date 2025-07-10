@@ -111,6 +111,7 @@
 	fields: ["name", "project_name", "custom_location"],
 	orderBy: "project_name asc",
 	auto: true,
+	limit: 2500,
   })
   
   const settings = createResource({
