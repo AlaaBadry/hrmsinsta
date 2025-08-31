@@ -90,7 +90,7 @@
   </template>
   
   <script setup>
-  import { createResource, createListResource, toast, FeatherIcon } from "frappe-ui"
+  import { createResource, createListResource, call, toast, FeatherIcon } from "frappe-ui"
   import { computed, inject, ref, onMounted, onBeforeUnmount } from "vue"
   import { IonModal, modalController } from "@ionic/vue"
   
@@ -105,14 +105,17 @@
   const locationStatus = ref("")
   const selectedProject = ref(null)
   const distance = ref(null)
+  const projects =ref([null])
   
-  const projects = createListResource({
-	doctype: "Project",
-	fields: ["name", "project_name", "custom_location"],
-	orderBy: "project_name asc",
-	auto: true,
-	limit: 2500,
+async function fetchProjects() {
+  let res = await call("frappe.client.get_list", {
+    doctype: "Project",
+    fields: ["name", "project_name", "custom_location"],
+    order_by: "project_name asc",
+    limit_page_length: 0,   // 0 means "no limit"
   })
+  projects.value = res
+}
   
   const settings = createResource({
 	url: "hrms.api.get_hr_settings",
@@ -368,5 +371,9 @@
   onBeforeUnmount(() => {
 	socket.emit("doctype_unsubscribe", DOCTYPE)
 	socket.off("list_update")
+  })
+
+  onMounted(() => {
+    fetchProjects()
   })
   </script>
